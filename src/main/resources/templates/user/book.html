@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>New Booking</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+          crossorigin="anonymous">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark custom-nav">
+    <a class="navbar-brand" th:href="@{/}">Home</a>
+    <button class="navbar-toggler"
+            type="button"
+            data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+    >
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" aria-current="page" th:href="@{/}">Profile</a>
+            </li>
+            <li class="nav-item">
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-link" th:href="@{/admin/}">Dashboard</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-link" th:href="@{/booking/list}">Bookings</a>
+                </div>
+            </li>
+            <li class="nav-item active">
+                <div sec:authorize="hasRole('ROLE_USER')">
+                    <a class="nav-link active" th:href="@{/booking/new}">Book</a>
+                </div>
+            </li>
+            <form method="POST" th:action="@{/logout}">
+                <input type="submit"
+                       name="submit"
+                       id="submit"
+                       class="btn btn-danger"
+                       value="Logout">
+            </form>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container">
+    <form th:action="@{/booking/create}"
+          method="POST"
+          th:object="${req}"
+    >
+        <h1>Book</h1>
+
+        <div class="col-sm-10">
+            <label for="date" class="col-5">Date</label>
+            <div class="col-15">
+                <input type="date"
+                       id="date"
+                       th:field="*{date}"
+                       placeholder="Date"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <label for="date" class="col-5">Location</label>
+            <div class="col-15">
+                <input type="text"
+                       id="location"
+                       th:field="*{location}"
+                       placeholder="Location"
+                       class="form-control">
+            </div>
+        </div>
+        <div class="col-sm-10">
+            <select id="vaccine" name="vaccine" class="form-select" th:field="*{vaccineId}">
+                <option th:each="vaccine : ${vaccines}" th:value="${vaccine.id}" th:text="${vaccine.vaccineType}"/>
+            </select>
+        </div>
+
+
+
+</div>
+        <input type="submit" name="submit" class="btn btn-dark" value="Submit">
+</div>
+</body>
+</html>

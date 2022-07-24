@@ -6,6 +6,8 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "vaccine")
@@ -29,4 +31,6 @@ public class Vaccine {
     @Column(name = "details")
     private String details;
 
+    @OneToMany(mappedBy = "vaccine")
+    private Set<Booking> bookings = new HashSet<>();
 }

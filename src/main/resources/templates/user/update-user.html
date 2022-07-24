@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Dashboard</title>
+    <title>Update User</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
           rel="stylesheet"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
@@ -10,7 +10,6 @@
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark custom-nav">
-        <a class="navbar-brand" th:href="@{/}">Home</a>
         <button class="navbar-toggler"
                 type="button"
                 data-toggle="collapse"
@@ -31,11 +30,6 @@
                         <a class="nav-link" th:href="@{/admin/}">Dashboard</a>
                     </div>
                 </li>
-                <li class="nav-item">
-                    <div sec:authorize="hasRole('ROLE_ADMIN')">
-                        <a class="nav-link" th:href="@{/booking/list}">Bookings</a>
-                    </div>
-                </li>
                 <form method="POST" th:action="@{/logout}">
                     <input type="submit"
                            name="submit"
@@ -47,37 +41,39 @@
             </ul>
         </div>
     </nav>
+<div class="container">
+    <hr>
+    <h2>Update</h2>
+    <form th:action="@{/update-user}" th:object="${user}" method="POST">
+        <input type="hidden" id="id" name="id" th:field="*{id}" th:value="*{id}">
+        <input type="text"
+               th:field="*{name}"
+               placeholder="Name"
+               class="form-control mb-4 col-4">
+        <input type="text"
+               th:field="*{surname}"
+               placeholder="Surname"
+               class="form-control mb-4 col-4">
+        <input type="text"
+               th:field="*{email}"
+               placeholder="Email"
+               class="form-control mb-4 col-4">
+        <input type="password"
+               th:field="*{password}"
+               placeholder="Password"
+               class="form-control mb-4 col-4">
+        <input type="text"
+               th:field="*{idCard}"
+               placeholder="Id Card"
+               class="form-control mb-4 col-4">
+        <input type="text"
+               th:field="*{address}"
+               placeholder="Address"
+               class="form-control mb-4 col-4">
 
-<div class="container my-2">
-    <h1>Vaccine List</h1>
-    <table class="table">
-        <thead class="thead-dark">
-        <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Vaccine Type</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Details</th>
-            <th scope="col/=">Actions</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr scope="row" th:each="vaccine : ${vaccines}">
-            <td th:text="${vaccine.id}"></td>
-            <td th:text="${vaccine.vaccineType}"></td>
-            <td th:text="${vaccine.quantity}"></td>
-            <td th:text="${vaccine.details}"></td>
-            <td>
-                <a th:href="@{/admin/update-form(id=${vaccine.id})}" class="btn btn-light"> Update
-
-                    <a th:href="@{/admin/delete(id=${vaccine.id})}"
-                       class="btn btn-light"
-                       onclick="if (!(confirm('Are you sure you want to delete this vaccine?'))) return false">
-                        Delete</td>
-
-            </td>
-        </tr>
-        </tbody>
-    </table>
+        <input type="submit" id="submit" name="submit" value="submit">
+    </form>
+    <hr>
 </div>
 </body>
 </html>

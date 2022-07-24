@@ -2,12 +2,15 @@ package com.example.vaccination_app.model;
 
 import com.example.vaccination_app.config.SecurityConfig;
 import com.example.vaccination_app.dto.UserCreateDto;
+import com.example.vaccination_app.dto.UserUpdateDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -45,6 +48,9 @@ public class User {
     @JoinColumn(name = "application_role_id", nullable = false)
     private ApplicationRole applicationRole;
 
+    @OneToMany(mappedBy = "user")
+    private Set<Booking> bookings = new HashSet<>();
+
     public User(long id, String name, String surname, String email, String password, String idCard, String address, ApplicationRole applicationRole) {
         this.id = id;
         this.name = name;
@@ -66,6 +72,15 @@ public class User {
         usr.setAddress(req.getAddress());
 
         return usr;
+    }
+
+    public void update(UserUpdateDto req) {
+        name = req.getName();
+        surname = req.getSurname();
+        email = req.getEmail();
+        password = req.getPassword();
+        idCard = req.getIdCard();
+        address = req.getAddress();
     }
 
 }
