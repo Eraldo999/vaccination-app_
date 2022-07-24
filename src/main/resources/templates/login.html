@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Log In demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+	  rel="stylesheet"
+	  integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+	  crossorigin="anonymous">
+</head>
+<body>
+<br>
+<br>
+<form name="f" style="margin: auto; width: 400px;" th:action="@{/login}" method="POST">
+	<div th:if="${param.error}" class="alert alert-error alert-danger">
+		Invalid username and password.
+	</div>
+	<div th:if="${param.logout}" class="alert alert-error alert-danger">
+		You have been logged out.
+	</div>
+	<h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+	<div class="form-floating">
+		<input type="email"
+			   class="form-control"
+			   id="username"
+			   name="username"
+			   placeholder="name@example.com"
+		>
+		<label for="username">Email address</label>
+	</div>
+	<hr>
+	<div class="form-floating">
+		<input type="password"
+			   class="form-control"
+			   id="password"
+			   name="password"
+			   placeholder="Password"
+		>
+		<label for="password">Password</label>
+		<hr>
+	</div>
+	<button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+	<hr>
+	<div class="col ">
+		<a class="w-100 btn btn-lg btn-primary" th:href="@{/register}">Register Here</a>
+	</div>
+</form>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+		crossorigin="anonymous"></script>
+</body>
+</html>

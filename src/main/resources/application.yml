@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: PlanSpace Application
+    version: "@project.version@-@build.number@"
+  devtools:
+    restart:
+      enabled: false
+    add-properties: false
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDB103Dialect
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        show_sql: true
+        schema_update:
+          unique_constraint_strategy: RECREATE_QUIETLY
+#  mvc:
+#    pathmatch:
+#      matching-strategy: ant_path_matcher
+  template:
+    provider:
+      cache: false
+  thymeleaf:
+    cache: false
+  datasource:
+    tomcat:
+      default-auto-commit: false
+      initial-size: 2
+      test-on-borrow: true
+      validation-query: "select 1 from dual"
+      jmx-enabled: true
+    hikari:
+      maximum-pool-size: 50
+    url: jdbc:mariadb://localhost:3306/springbootdb2
+    username: usr_application
+    password: usr_password
+    driver-class-name: org.mariadb.jdbc.Driver
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 512KB
+      max-request-size: 512KB
+      location: ${java.io.tmpdir}
+logging:
+  level:
+    org:
+      hibernate:
+        type: TRACE
+    web: debug
