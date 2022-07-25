@@ -8,6 +8,8 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "booking")
@@ -29,6 +31,9 @@ public class Booking {
     @Column(name = "location")
     private String location;
 
+    @Column(name = "approve")
+    private boolean approve;
+
     @ManyToOne
     @JoinColumn(name = "vaccine_id", nullable = false)
     private Vaccine vaccine;
@@ -40,5 +45,8 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "vaccination_center_id")
     private VaccinationCenter vaccinationCenter;
+
+    @OneToMany(mappedBy = "booking")
+    private Set<Approved> approved = new HashSet<>();
 
 }

@@ -4,6 +4,7 @@ import com.example.vaccination_app.dto.BookingCreateDto;
 import com.example.vaccination_app.exception.BadResourceException;
 import com.example.vaccination_app.exception.ResourceNotFoundException;
 import com.example.vaccination_app.service.BookingService;
+import com.example.vaccination_app.service.VaccinationCenterService;
 import com.example.vaccination_app.service.VaccineService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,11 +23,13 @@ public class BookingController {
 
     private final BookingService bookingService;
     private final VaccineService vaccineService;
+    private final VaccinationCenterService vaccinationCenterService;
 
     @Autowired
-    public BookingController(BookingService bookingService, VaccineService vaccineService) {
+    public BookingController(BookingService bookingService, VaccineService vaccineService, VaccinationCenterService vaccinationCenterService) {
         this.bookingService = bookingService;
         this.vaccineService = vaccineService;
+        this.vaccinationCenterService = vaccinationCenterService;
     }
 
     @GetMapping("/list")
@@ -36,14 +39,28 @@ public class BookingController {
         return "admin/booking-list";
     }
 
+    @RequestMapping("/delete")
+    public String deleteBookingById (@RequestParam("id") long id){
+        bookingService.deleteBookingById(id);
+        return "redirect:/";
+    }
+
+    @RequestMapping("/approved")
+    public String deleteAprovedBookingById (@RequestParam("id") long id){
+        bookingService.acceptBooking(id);
+        return "redirect:/";
+    }
+
     @GetMapping("/new")
     public String newBooking(Model model, Principal principal) {
 
         var vaccines = vaccineService.getAllVaccines();
+        var vaccinationCenters = vaccinationCenterService.getAllVaccinationCenters();
         var req = new BookingCreateDto();
 
         model.addAttribute("req", req);
         model.addAttribute("vaccines", vaccines);
+        model.addAttribute("centers", vaccinationCenters);
         return "user/book";
     }
 
@@ -59,8 +76,8 @@ public class BookingController {
         }
 
     try {
-        bookingService.createBooking(req, principal, req.getVaccineId());
-        return "redirect:/user/book";
+        bookingService.createBooking(req, principal, req.getVaccinationCenterId(), req.getVaccineId());
+        return "redirect:/";
     }
     catch (ResourceNotFoundException | BadResourceException ex) {
         log.error(ex.getMessage());

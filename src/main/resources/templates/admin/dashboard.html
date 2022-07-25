@@ -36,6 +36,14 @@
                         <a class="nav-link" th:href="@{/booking/list}">Bookings</a>
                     </div>
                 </li>
+                <li class="nav-item">
+                    <div sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="nav-link" th:href="@{/approved/}">Appoitments</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" th:href="@{/notification/}">Notification</a>
+                </li>
                 <form method="POST" th:action="@{/logout}">
                     <input type="submit"
                            name="submit"
