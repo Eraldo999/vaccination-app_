@@ -36,4 +36,9 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @ManyToOne
+    @JoinColumn(name = "vaccination_center_id")
+    private VaccinationCenter vaccinationCenter;
+
 }

@@ -54,13 +54,13 @@ public class BookingController {
                              Principal principal
     ) {
 
-//        if (bindingResult.hasErrors()) {
-//            return "/login";
-//        }
+        if (bindingResult.hasErrors()) {
+            return "redirect:/user/book";
+        }
 
     try {
         bookingService.createBooking(req, principal, req.getVaccineId());
-        return "redirect:/";
+        return "redirect:/user/book";
     }
     catch (ResourceNotFoundException | BadResourceException ex) {
         log.error(ex.getMessage());

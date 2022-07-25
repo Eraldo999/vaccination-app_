@@ -3,6 +3,7 @@ package com.example.vaccination_app.controller;
 import com.example.vaccination_app.dto.UserCreateDto;
 import com.example.vaccination_app.dto.UserUpdateDto;
 import com.example.vaccination_app.service.UserService;
+import com.example.vaccination_app.service.VaccineService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -21,10 +22,12 @@ import java.security.Principal;
 public class UserController {
 
     private UserService userService;
+    private VaccineService vaccineService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, VaccineService vaccineService) {
         this.userService = userService;
+        this.vaccineService = vaccineService;
     }
 
     @GetMapping("/index")
@@ -98,4 +101,13 @@ public class UserController {
         userService.updateUser(req, principal);
         return "redirect:/";
     }
+
+    @GetMapping("/vaccine-details")
+    public String vaccineDetails(Model model){
+        var vaccines = vaccineService.getAllVaccines();
+        model.addAttribute("vaccines", vaccines);
+        return "user/vaccine-details";
+    }
+
+
 }

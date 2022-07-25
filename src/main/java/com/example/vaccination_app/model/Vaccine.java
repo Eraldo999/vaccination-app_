@@ -33,4 +33,8 @@ public class Vaccine {
 
     @OneToMany(mappedBy = "vaccine")
     private Set<Booking> bookings = new HashSet<>();
+
+    @ManyToMany(mappedBy = "vaccines")
+    private Set<VaccinationCenter> vaccinationCenters = new HashSet<>();
+
 }

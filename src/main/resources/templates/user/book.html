@@ -69,6 +69,7 @@
                        class="form-control">
             </div>
         </div>
+        <hr>
         <div class="col-sm-10">
             <label for="date" class="col-5">Location</label>
             <div class="col-15">
@@ -79,16 +80,20 @@
                        class="form-control">
             </div>
         </div>
+        <hr>
         <div class="col-sm-10">
+            Select Vaccine
             <select id="vaccine" name="vaccine" class="form-select" th:field="*{vaccineId}">
                 <option th:each="vaccine : ${vaccines}" th:value="${vaccine.id}" th:text="${vaccine.vaccineType}"/>
             </select>
+            <a class="link-secondary" aria-current="page" th:href="@{/vaccine-details}">Vaccines details</a>
         </div>
-
-
-
+        <hr>
+        <div class="col-sm-5">
+            <input type="submit" name="submit" class="btn btn-dark" value="Submit">
+        </div>
 </div>
-        <input type="submit" name="submit" class="btn btn-dark" value="Submit">
+
 </div>
 </body>
 </html>
