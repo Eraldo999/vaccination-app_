@@ -3,8 +3,10 @@ package com.example.vaccination_app.service;
 import com.example.vaccination_app.exception.ResourceNotFoundException;
 import com.example.vaccination_app.model.Approved;
 import com.example.vaccination_app.model.Booking;
+import com.example.vaccination_app.model.Notification;
 import com.example.vaccination_app.repository.ApprovedRepository;
 import com.example.vaccination_app.repository.BookingRepository;
+import com.example.vaccination_app.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +21,15 @@ public class ApprovedService {
 
     private final ApprovedRepository approvedRepository;
     private final BookingRepository bookingRepository;
+    private final NotificationRepository notificationRepository;
+    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
     @Autowired
-    public ApprovedService(ApprovedRepository approvedRepository, BookingRepository bookingRepository) {
+    public ApprovedService(ApprovedRepository approvedRepository, BookingRepository bookingRepository,
+                           NotificationRepository notificationRepository) {
         this.approvedRepository = approvedRepository;
         this.bookingRepository = bookingRepository;
+        this.notificationRepository = notificationRepository;
     }
 
     public List<Approved> getAll(){
@@ -47,6 +53,8 @@ public class ApprovedService {
         var appoitment = optappoitment.get();
         var booking = appoitment.getBooking();
         var secondDate = secondDoseDate(booking.getDate());
+        var user = booking.getUser();
+
         var newBooking = new Booking();
         newBooking.setDate(secondDate);
         newBooking.setLocation(booking.getLocation());
@@ -55,11 +63,24 @@ public class ApprovedService {
         newBooking.setVaccinationCenter(booking.getVaccinationCenter());
         newBooking.setApprove(true);
         bookingRepository.save(newBooking);
+
+        var notification = new Notification();
+        notification.setUser(user);
+        notification.setStatus("Your second dose date : " + dateFormat.format(newBooking.getDate()));
+
         var newAppoitment = new Approved();
         newAppoitment.setBooking(newBooking);
+        newAppoitment.setSecondDose(true);
+
+        notificationRepository.save(notification);
         approvedRepository.save(newAppoitment);
         approvedRepository.delete(appoitment);
+    }
 
-
+    public void deleteAppoitment (long id){
+        var approved = approvedRepository.findById(id).get();
+        var bookingId = approved.getBooking().getId();
+        approvedRepository.deleteById(id);
+        bookingRepository.deleteById(bookingId);
     }
 }

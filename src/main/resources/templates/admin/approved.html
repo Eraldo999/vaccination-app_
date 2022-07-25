@@ -92,11 +92,18 @@
                 <td th:text="${approve.booking.vaccinationCenter.name}"</td>
                 <td th:text="${approve.booking.vaccine.vaccineType}"</td>
                 <td>
+                    <div th:unless="${approve.secondDose}">
                     <a th:href="@{/approved/second-appoitment(id=${approve.id})}"
                        class="btn btn-light"
                        onclick="if (!(confirm('Are you sure?'))) return false">
                         Done
-                    </a>
+                    </a></div>
+                    <div th:if="${approve.secondDose}">
+                        <a th:href="@{/approved/delete(id=${approve.id})}"
+                           class="btn btn-light"
+                           onclick="if (!(confirm('Are you sure?'))) return false">
+                            Delete Appoitment
+                        </a></div>
                 </td>
 
 

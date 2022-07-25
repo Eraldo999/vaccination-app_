@@ -26,6 +26,7 @@ public class BookingService {
     private final VaccinationCenterRepository vaccinationCenterRepository;
     private final NotificationRepository notificationRepository;
     private final ApprovedRepository approvedRepository;
+    DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 
     @Autowired
     public BookingService(BookingRepository bookingRepository, UserRepository userRepository,
@@ -57,28 +58,16 @@ public class BookingService {
         bookingRepository.deleteById(id);
     }
 
-    public String secondDoseDate (Date date){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
-        Calendar c = Calendar.getInstance();
-        c.setTime(date);
-        c.add(Calendar.DATE, 14);
-        Date secondDoseDate = c.getTime();
-        return dateFormat.format(secondDoseDate);
-    }
-
     public void acceptBooking (long id){
         var optbooking = bookingRepository.findById(id);
         if(optbooking.isEmpty()){
             throw new ResourceNotFoundException();
         }
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         var booking = optbooking.get();
         var user = booking.getUser();
         var date = booking.getDate();
-        var secondDoseDate = secondDoseDate(date);
-        var formatedDate = dateFormat.format(date);
         var notification = new Notification();
-        notification.setStatus("Your book is aproved!" + " First dose date: " + formatedDate + "\n Second dose date: " + secondDoseDate);
+        notification.setStatus("Your book is aproved!" + " First dose date: " + dateFormat.format(booking.getDate()));
         notification.setUser(user);
         var approved = new Approved();
         approved.setBooking(booking);

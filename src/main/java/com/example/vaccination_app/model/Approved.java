@@ -20,6 +20,9 @@ public class Approved {
     @Column(name = "id", nullable = false)
     private long id;
 
+    @Column(name = "second_dose")
+    private boolean secondDose;
+
     @ManyToOne
     @JoinColumn(name = "booking_id", nullable = false)
     private Booking booking;

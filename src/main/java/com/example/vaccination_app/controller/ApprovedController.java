@@ -31,4 +31,10 @@ public class ApprovedController {
         return "admin/approved";
     }
 
+    @RequestMapping("/delete")
+    public String deleteAppoitment(@RequestParam("id") long id){
+        approvedService.deleteAppoitment(id);
+        return "admin/approved";
+    }
+
 }
