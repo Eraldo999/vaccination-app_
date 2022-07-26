@@ -96,13 +96,13 @@
                 <td>
                     <div th:if="${approve.booking.status.name() == 'APPROVED'}">
                     <a th:href="@{/approved/second-appoitment(id=${approve.id})}"
-                       class="btn btn-light"
+                       class="btn btn-dark"
                        onclick="if (!(confirm('Are you sure?'))) return false">
                         Done
                     </a></div>
                     <div th:if="${approve.booking.status.name() == 'DONE'}">
                         <a th:href="@{/approved/delete(id=${approve.id})}"
-                           class="btn btn-light"
+                           class="btn btn-dark"
                            onclick="if (!(confirm('Are you sure?'))) return false">
                             Delete Appoitment
                         </a></div>

@@ -97,7 +97,7 @@
                 <td>
                     <div th:if="${book.status.name() == 'DISSAPROVED'}">
                         <a th:href="@{/booking/delete(id=${book.id})}"
-                           class="btn btn-light"
+                           class="btn btn-dark"
                            onclick="if (!(confirm('Delete booking?'))) return false">
                             Delete
                         </a>
@@ -109,7 +109,7 @@
                         Dissapprove
 
                     <a th:href="@{/booking/approved(id=${book.id})}"
-                       class="btn btn-light"
+                       class="btn btn-dark"
                        onclick="if (!(confirm('Confirm booking? '))) return false">
                         Approve</td>
                     </div>

@@ -95,6 +95,9 @@ public class BookingService {
         var status = Status.PENDING;
         var user = optUser.get();
         var vaccine = optVaccine.get();
+        if (vaccine.getQuantity() == 0){
+            throw new ResourceNotFoundException("Vaccine out of stock");
+        }
         var vaccinationCenter = user.getVaccinationCenter();
 
         var booking = new Booking();

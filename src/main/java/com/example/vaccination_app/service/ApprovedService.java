@@ -74,7 +74,7 @@ public class ApprovedService {
 
         notificationRepository.save(notification);
         approvedRepository.save(newAppoitment);
-//        approvedRepository.delete(appoitment);
+        approvedRepository.delete(appoitment);
     }
 
     public void deleteAppoitment (long id){
