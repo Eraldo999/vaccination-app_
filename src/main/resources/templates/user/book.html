@@ -85,14 +85,6 @@
         </div>
         <hr>
         <div class="col-sm-10">
-            Select Vaccination Center
-            <select id="centers" name="centers" class="form-select" th:field="*{vaccinationCenterId}">
-                <option th:each="center : ${centers}" th:value="${center.id}" th:text="${center.name}"/>
-
-            </select>
-        </div>
-        <hr>
-        <div class="col-sm-10">
             Select Vaccine
             <select id="vaccine" name="vaccine" class="form-select" th:field="*{vaccineId}">
                 <option th:each="vaccine : ${vaccines}" th:value="${vaccine.id}" th:text="${vaccine.vaccineType}"/>

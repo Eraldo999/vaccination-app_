@@ -4,6 +4,7 @@ import com.example.vaccination_app.dto.BookingCreateDto;
 import com.example.vaccination_app.exception.BadResourceException;
 import com.example.vaccination_app.exception.ResourceNotFoundException;
 import com.example.vaccination_app.service.BookingService;
+import com.example.vaccination_app.service.UserService;
 import com.example.vaccination_app.service.VaccinationCenterService;
 import com.example.vaccination_app.service.VaccineService;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +25,15 @@ public class BookingController {
     private final BookingService bookingService;
     private final VaccineService vaccineService;
     private final VaccinationCenterService vaccinationCenterService;
+    private final UserService userService;
 
     @Autowired
-    public BookingController(BookingService bookingService, VaccineService vaccineService, VaccinationCenterService vaccinationCenterService) {
+    public BookingController(BookingService bookingService, VaccineService vaccineService,
+                             VaccinationCenterService vaccinationCenterService, UserService userService) {
         this.bookingService = bookingService;
         this.vaccineService = vaccineService;
         this.vaccinationCenterService = vaccinationCenterService;
+        this.userService = userService;
     }
 
     @GetMapping("/list")
@@ -52,15 +56,14 @@ public class BookingController {
     }
 
     @GetMapping("/new")
-    public String newBooking(Model model) {
-
-        var vaccines = vaccineService.getAllVaccines();
-        var vaccinationCenters = vaccinationCenterService.getAllVaccinationCenters();
+    public String newBooking(Model model, Principal principal) {
+        var usr = (userService.getUserByPrincipal(principal)).get();
+        var userId = usr.getId();
+        var vaccines = vaccineService.getVaccinesForUser(userId);
         var req = new BookingCreateDto();
 
         model.addAttribute("req", req);
         model.addAttribute("vaccines", vaccines);
-        model.addAttribute("centers", vaccinationCenters);
         return "user/book";
     }
 

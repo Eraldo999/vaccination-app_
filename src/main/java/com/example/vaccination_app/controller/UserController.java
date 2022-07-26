@@ -75,13 +75,6 @@ public class UserController {
         return "error/404";
     }
 
-//    @GetMapping("/updateUser-form")
-//    public String update (@RequestParam("id") long id, Model model){
-//        var optUser = userService.getUserById(id);
-//        var user = optUser.get();
-//        model.addAttribute("user", user);
-//        return "user/update-user.html";
-//    }
 
     @PostMapping("/save-user")
     public String save(@ModelAttribute("user") com.example.vaccination_app.model.User user) {
@@ -116,32 +109,6 @@ public class UserController {
         return "user/vaccine-details";
     }
 
-    @GetMapping("/select-center")
-    public String selectVaccinationCenter (Model model, Principal principal){
-        var vaccinationCenters = vaccinationCenterService.getAllVaccinationCenters();
-        var user = userService.getUserByPrincipal(principal);
-        if(user.isEmpty()){
-            throw new ResourceNotFoundException();
-        }
-        var usr = user.get();
-        model.addAttribute("user", usr);
-        model.addAttribute("vaccinationCenters", vaccinationCenters);
-
-        return "user/select-vaccinationCenter";
-    }
-
-    @RequestMapping("/select-centerr/{id}")
-    public String selectVaccinationCenterr (@PathVariable long id, Principal principal){
-        var user = (userService.getUserByPrincipal(principal));
-        if (user.isEmpty()){
-            throw new ResourceNotFoundException();
-        }
-        var userId = (user.get()).getId();
-
-        userService.setUserVaccinationCenter(userId,id);
-
-        return "redirect:/";
-    }
 
 
 }

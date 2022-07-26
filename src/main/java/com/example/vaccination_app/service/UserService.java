@@ -67,15 +67,4 @@ public class UserService {
         }
     }
 
-    public void setUserVaccinationCenter (long userId, long vaccinationCenterId ){
-        var usr = userRepository.findById(userId);
-        var vaccinationCenter = vaccinationCenterRepository.findById(vaccinationCenterId);
-        if(usr.isEmpty() || vaccinationCenter.isEmpty()){
-            throw new ResourceNotFoundException();
-        }
-        var user = usr.get();
-        var center = vaccinationCenter.get();
-
-        user.setVaccinationCenter(center);
-    }
 }
