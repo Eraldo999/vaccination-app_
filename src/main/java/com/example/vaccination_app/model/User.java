@@ -77,7 +77,6 @@ public class User {
         usr.setPassword(SecurityConfig.PASSWORD_ENCODER.encode(req.getPassword()));
         usr.setIdCard(req.getIdCard());
         usr.setAddress(req.getAddress());
-
         return usr;
     }
 

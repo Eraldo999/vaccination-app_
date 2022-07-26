@@ -83,6 +83,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Id Card</th>
                 <th scope="col">Address</th>
+                <th scope="col">Center</th>
             </tr>
             </thead>
             <tbody>
@@ -93,6 +94,7 @@
                 <td th:text="${user.email}"></td>
                 <td th:text="${user.idCard}"></td>
                 <td th:text="${user.address}"></td>
+                <td th:text="${user.vaccinationCenter.name}"></td>
             </tr>
             </tbody>
             <a th:href="@{/update-user/{id}(id=${user.id})}"

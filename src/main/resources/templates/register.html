@@ -13,7 +13,7 @@
 <div class="container">
     <hr>
     <h2>New User</h2>
-    <form th:action="@{user/register}"
+    <form th:action="@{/register}"
           th:object="${user}"
           method="POST"
           enctype="multipart/form-data"
@@ -75,6 +75,19 @@
                th:field="*{address}"
                placeholder="Address"
                class="form-control mb-4 col-4">
+        <div class="row mb-3">
+            <label for="vaccinationCenterId" class="col-4">Select Center</label>
+        <select id="vaccinationCenterId"
+                name="vaccinationCenterId"
+                th:field="*{vaccinationCenterId}"
+                class="form-select"
+        >
+            <option th:each="center : ${centers}"
+                    th:value="${center.id}"
+                    th:text="${center.name}"></option>
+        </select>
+        </div>
+
         <input type="submit" id="submit" name="submit" value="submit">
     </form>
     <hr>

@@ -1,5 +1,6 @@
 package com.example.vaccination_app.dto;
 
+import com.example.vaccination_app.model.VaccinationCenter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -7,6 +8,8 @@ import lombok.ToString;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -34,6 +37,9 @@ public class UserCreateDto {
     @NotBlank
     private String address;
 
+    @NotNull
+    private long vaccinationCenterId;
+
     public void setName(String name) {
         this.name = name;
     }
@@ -57,4 +63,5 @@ public class UserCreateDto {
     public void setAddress(String address) {
         this.address = address;
     }
+
 }

@@ -3,9 +3,12 @@ package com.example.vaccination_app.service;
 import com.example.vaccination_app.config.SecurityConfig;
 import com.example.vaccination_app.dto.UserCreateDto;
 import com.example.vaccination_app.dto.UserUpdateDto;
+import com.example.vaccination_app.exception.ResourceNotFoundException;
 import com.example.vaccination_app.model.User;
+import com.example.vaccination_app.model.VaccinationCenter;
 import com.example.vaccination_app.repository.ApplicationRoleRepository;
 import com.example.vaccination_app.repository.UserRepository;
+import com.example.vaccination_app.repository.VaccinationCenterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,11 +21,13 @@ public class UserService {
 
     private ApplicationRoleRepository applicationRoleRepository;
     private UserRepository userRepository;
+    private VaccinationCenterRepository vaccinationCenterRepository;
 
     @Autowired
-    public UserService(ApplicationRoleRepository applicationRoleRepository, UserRepository userRepository) {
+    public UserService(ApplicationRoleRepository applicationRoleRepository, UserRepository userRepository, VaccinationCenterRepository vaccinationCenterRepository) {
         this.applicationRoleRepository = applicationRoleRepository;
         this.userRepository = userRepository;
+        this.vaccinationCenterRepository = vaccinationCenterRepository;
     }
 
 
@@ -30,10 +35,11 @@ public class UserService {
     public void register (UserCreateDto req) {
         var user = User.fromCreateRequest(req);
         var optionalroleUser = applicationRoleRepository.findById(SecurityConfig.ROLE_USER_ID);
-        if (optionalroleUser.isPresent()) {
-
+        var optCenter = vaccinationCenterRepository.findById(req.getVaccinationCenterId());
+        if (optionalroleUser.isPresent() && optCenter.isPresent()) {
             var roleUser = optionalroleUser.get();
             user.setApplicationRole(roleUser);
+            user.setVaccinationCenter(optCenter.get());
         }
         userRepository.save(user);
     }
@@ -59,5 +65,17 @@ public class UserService {
             user.update(req);
             userRepository.save(user);
         }
+    }
+
+    public void setUserVaccinationCenter (long userId, long vaccinationCenterId ){
+        var usr = userRepository.findById(userId);
+        var vaccinationCenter = vaccinationCenterRepository.findById(vaccinationCenterId);
+        if(usr.isEmpty() || vaccinationCenter.isEmpty()){
+            throw new ResourceNotFoundException();
+        }
+        var user = usr.get();
+        var center = vaccinationCenter.get();
+
+        user.setVaccinationCenter(center);
     }
 }

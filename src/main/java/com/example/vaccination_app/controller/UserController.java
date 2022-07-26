@@ -2,7 +2,10 @@ package com.example.vaccination_app.controller;
 
 import com.example.vaccination_app.dto.UserCreateDto;
 import com.example.vaccination_app.dto.UserUpdateDto;
+import com.example.vaccination_app.exception.ResourceNotFoundException;
+import com.example.vaccination_app.model.VaccinationCenter;
 import com.example.vaccination_app.service.UserService;
+import com.example.vaccination_app.service.VaccinationCenterService;
 import com.example.vaccination_app.service.VaccineService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,11 +26,13 @@ public class UserController {
 
     private UserService userService;
     private VaccineService vaccineService;
+    private VaccinationCenterService vaccinationCenterService;
 
     @Autowired
-    public UserController(UserService userService, VaccineService vaccineService) {
+    public UserController(UserService userService, VaccineService vaccineService, VaccinationCenterService vaccinationCenterService) {
         this.userService = userService;
         this.vaccineService = vaccineService;
+        this.vaccinationCenterService = vaccinationCenterService;
     }
 
     @GetMapping("/index")
@@ -39,6 +44,8 @@ public class UserController {
     public String registerForm(Model model) {
         var user = new UserCreateDto();
         model.addAttribute("user", user);
+        var centers = vaccinationCenterService.getAllVaccinationCenters();
+        model.addAttribute("centers", centers);
         return "/register";
     }
 
@@ -46,13 +53,13 @@ public class UserController {
     @ResponseBody
     public String register(
             @Valid @ModelAttribute("user") UserCreateDto usr,
-            BindingResult bindingResult
+            BindingResult bindingResult, Model model
     ) {
         if (bindingResult.hasErrors()) {
             return "/register";
         } else {
             userService.register(usr);
-            return "redirect:/";
+            return "redirect:/login";
         }
     }
 
@@ -107,6 +114,33 @@ public class UserController {
         var vaccines = vaccineService.getAllVaccines();
         model.addAttribute("vaccines", vaccines);
         return "user/vaccine-details";
+    }
+
+    @GetMapping("/select-center")
+    public String selectVaccinationCenter (Model model, Principal principal){
+        var vaccinationCenters = vaccinationCenterService.getAllVaccinationCenters();
+        var user = userService.getUserByPrincipal(principal);
+        if(user.isEmpty()){
+            throw new ResourceNotFoundException();
+        }
+        var usr = user.get();
+        model.addAttribute("user", usr);
+        model.addAttribute("vaccinationCenters", vaccinationCenters);
+
+        return "user/select-vaccinationCenter";
+    }
+
+    @RequestMapping("/select-centerr/{id}")
+    public String selectVaccinationCenterr (@PathVariable long id, Principal principal){
+        var user = (userService.getUserByPrincipal(principal));
+        if (user.isEmpty()){
+            throw new ResourceNotFoundException();
+        }
+        var userId = (user.get()).getId();
+
+        userService.setUserVaccinationCenter(userId,id);
+
+        return "redirect:/";
     }
 
 

@@ -52,7 +52,7 @@ public class BookingController {
     }
 
     @GetMapping("/new")
-    public String newBooking(Model model, Principal principal) {
+    public String newBooking(Model model) {
 
         var vaccines = vaccineService.getAllVaccines();
         var vaccinationCenters = vaccinationCenterService.getAllVaccinationCenters();
@@ -84,6 +84,13 @@ public class BookingController {
         return "user/book";
     }
 
+    }
+
+    @GetMapping("/getVaccinesOfCenter")
+    public String getvaccines(@RequestParam("id") long id, Model model){
+        var vaccines = vaccinationCenterService.getVaccinesForCenter(id);
+        model.addAttribute("vaccines", vaccines);
+        return "/";
     }
 
 
