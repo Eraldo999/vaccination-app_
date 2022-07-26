@@ -80,30 +80,39 @@
                 <th scope="col">User</th>
                 <th scope="col">Vaccination Center</th>
                 <th scope="col">Vaccine</th>
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
             <tbody>
 
             <tr th:each="book : ${bookings}">
-                <div th:unless="${book.approve}">
                 <td th:text="${book.id}"></td>
                 <td th:text="${#dates.format(book.date, 'dd-MM-yyyy')}"></td>
                 <td th:text="${book.location}"></td>
                 <td th:text="${book.user.name}"</td>
                 <td th:text="${book.vaccinationCenter.name}"</td>
                 <td th:text="${book.vaccine.vaccineType}"</td>
+                    <td th:text="${book.status}"</td>
                 <td>
-                    <a th:href="@{/booking/delete(id=${book.id})}"
+                    <div th:if="${book.status.name() == 'DISSAPROVED'}">
+                        <a th:href="@{/booking/delete(id=${book.id})}"
+                           class="btn btn-light"
+                           onclick="if (!(confirm('Delete booking?'))) return false">
+                            Delete
+                        </a>
+                    </div>
+                    <div th:if="${book.status.name() == 'PENDING'}">
+                    <a th:href="@{/booking/dissaprove(id=${book.id})}"
                        class="btn btn-light"
-                       onclick="if (!(confirm('Are you sure you want to delete this vaccine?'))) return false">
+                       onclick="if (!(confirm('Dissapprove booking?'))) return false">
                         Dissapprove
 
                     <a th:href="@{/booking/approved(id=${book.id})}"
                        class="btn btn-light"
                        onclick="if (!(confirm('Confirm booking? '))) return false">
                         Approve</td>
-
+                    </div>
                 </td>
                 </div>
             </tr>

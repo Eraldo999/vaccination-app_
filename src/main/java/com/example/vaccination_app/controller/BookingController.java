@@ -43,15 +43,21 @@ public class BookingController {
         return "admin/booking-list";
     }
 
-    @RequestMapping("/delete")
-    public String deleteBookingById (@RequestParam("id") long id){
-        bookingService.deleteBookingById(id);
+    @RequestMapping("/dissaprove")
+    public String dissaproveBookingById (@RequestParam("id") long id){
+        bookingService.dissaproveBooking(id);
         return "redirect:/";
     }
 
     @RequestMapping("/approved")
     public String deleteAprovedBookingById (@RequestParam("id") long id){
         bookingService.acceptBooking(id);
+        return "redirect:/";
+    }
+
+    @RequestMapping("/delete")
+    public String deleteBookingById (@RequestParam("id") long id){
+        bookingService.deleteBookingById(id);
         return "redirect:/";
     }
 
@@ -75,11 +81,11 @@ public class BookingController {
     ) {
 
         if (bindingResult.hasErrors()) {
-            return "redirect:/user/book";
+            return "redirect:/booking/new";
         }
 
     try {
-        bookingService.createBooking(req, principal, req.getVaccinationCenterId(), req.getVaccineId());
+        bookingService.createBooking(req, principal, req.getVaccineId());
         return "redirect:/";
     }
     catch (ResourceNotFoundException | BadResourceException ex) {

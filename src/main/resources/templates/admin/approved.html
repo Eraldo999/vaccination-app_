@@ -80,6 +80,7 @@
                 <th scope="col">User</th>
                 <th scope="col">Vaccination Center</th>
                 <th scope="col">Vaccine</th>
+                <th scope="col">Status</th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
@@ -91,14 +92,15 @@
                 <td th:text="${approve.booking.user.name}"</td>
                 <td th:text="${approve.booking.vaccinationCenter.name}"</td>
                 <td th:text="${approve.booking.vaccine.vaccineType}"</td>
+                <td th:text="${approve.booking.status}"</td>
                 <td>
-                    <div th:unless="${approve.secondDose}">
+                    <div th:if="${approve.booking.status.name() == 'APPROVED'}">
                     <a th:href="@{/approved/second-appoitment(id=${approve.id})}"
                        class="btn btn-light"
                        onclick="if (!(confirm('Are you sure?'))) return false">
                         Done
                     </a></div>
-                    <div th:if="${approve.secondDose}">
+                    <div th:if="${approve.booking.status.name() == 'DONE'}">
                         <a th:href="@{/approved/delete(id=${approve.id})}"
                            class="btn btn-light"
                            onclick="if (!(confirm('Are you sure?'))) return false">

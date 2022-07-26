@@ -4,6 +4,7 @@ import com.example.vaccination_app.exception.ResourceNotFoundException;
 import com.example.vaccination_app.model.Approved;
 import com.example.vaccination_app.model.Booking;
 import com.example.vaccination_app.model.Notification;
+import com.example.vaccination_app.model.enums.Status;
 import com.example.vaccination_app.repository.ApprovedRepository;
 import com.example.vaccination_app.repository.BookingRepository;
 import com.example.vaccination_app.repository.NotificationRepository;
@@ -61,7 +62,7 @@ public class ApprovedService {
         newBooking.setVaccine(booking.getVaccine());
         newBooking.setUser(booking.getUser());
         newBooking.setVaccinationCenter(booking.getVaccinationCenter());
-        newBooking.setApprove(true);
+        newBooking.setStatus(Status.DONE);
         bookingRepository.save(newBooking);
 
         var notification = new Notification();
@@ -70,11 +71,10 @@ public class ApprovedService {
 
         var newAppoitment = new Approved();
         newAppoitment.setBooking(newBooking);
-        newAppoitment.setSecondDose(true);
 
         notificationRepository.save(notification);
         approvedRepository.save(newAppoitment);
-        approvedRepository.delete(appoitment);
+//        approvedRepository.delete(appoitment);
     }
 
     public void deleteAppoitment (long id){
@@ -83,4 +83,5 @@ public class ApprovedService {
         approvedRepository.deleteById(id);
         bookingRepository.deleteById(bookingId);
     }
+
 }

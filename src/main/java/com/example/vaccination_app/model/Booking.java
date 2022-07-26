@@ -1,5 +1,6 @@
 package com.example.vaccination_app.model;
 
+import com.example.vaccination_app.model.enums.Status;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -31,9 +32,6 @@ public class Booking {
     @Column(name = "location")
     private String location;
 
-    @Column(name = "approve")
-    private boolean approve;
-
     @ManyToOne
     @JoinColumn(name = "vaccine_id", nullable = false)
     private Vaccine vaccine;
@@ -41,6 +39,9 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @Column(name = "status")
+    private Status status;
 
     @ManyToOne
     @JoinColumn(name = "vaccination_center_id")
