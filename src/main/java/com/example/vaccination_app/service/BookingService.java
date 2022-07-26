@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class BookingService {
@@ -124,6 +125,15 @@ public class BookingService {
             bookingRepository.deleteById(id);
         }
         else throw new PermissionDeniedException();
+    }
+
+    public Set<Booking> getBookingsForUser (Principal principal){
+        var user = userRepository.findByEmail(principal.getName());
+        if(user.isEmpty()) {
+            throw new ResourceNotFoundException();
+        }
+        var usr = user.get();
+        return usr.getBookings();
     }
 
 

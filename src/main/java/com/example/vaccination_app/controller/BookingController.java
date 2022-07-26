@@ -102,5 +102,11 @@ public class BookingController {
         return "/";
     }
 
+    @GetMapping("/get-bookings-user")
+    public String getBookingsForUser (Model model, Principal principal){
+        model.addAttribute("bookings",bookingService.getBookingsForUser(principal));
+        return "user/bookings";
+    }
+
 
 }

@@ -47,6 +47,11 @@
                     </div>
                 </li>
                 <li class="nav-item">
+                    <div sec:authorize="hasRole('ROLE_USER')">
+                        <a class="nav-link" th:href="@{/booking/get-bookings-user}">My Bookings</a>
+                    </div>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" aria-current="page" th:href="@{/notification/}">Notification</a>
                 </li>
                 <form method="POST" th:action="@{/logout}">
