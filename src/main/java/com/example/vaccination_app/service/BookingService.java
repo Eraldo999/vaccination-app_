@@ -6,6 +6,7 @@ import com.example.vaccination_app.exception.ResourceNotFoundException;
 import com.example.vaccination_app.model.Approved;
 import com.example.vaccination_app.model.Booking;
 import com.example.vaccination_app.model.Notification;
+import com.example.vaccination_app.model.User;
 import com.example.vaccination_app.model.enums.AnswersStatus;
 import com.example.vaccination_app.model.enums.Status;
 import com.example.vaccination_app.repository.*;
@@ -85,6 +86,19 @@ public class BookingService {
             notificationRepository.save(notification);
         }
     }
+    public boolean checkIfUserHasAnApprovedBooking (User user){
+        var bookings = user.getBookings();
+        boolean bol = false;
+        for (Booking b : bookings){
+            if(b.getStatus().equals(Status.APPROVED) || b.getStatus().equals(Status.DONE)){
+                bol = true;
+            }
+            else {
+                bol = false;
+            }
+        }
+        return bol;
+    }
 
     @Transactional
     public void createBooking (BookingCreateDto req, Principal principal, long vaccineId){
@@ -95,7 +109,8 @@ public class BookingService {
         }
         var status = Status.PENDING;
         var user = optUser.get();
-        if (user.getAnswers().getStatus().equals(AnswersStatus.COMPLETED)) {
+        if (user.getAnswers().getStatus().equals(AnswersStatus.COMPLETED)
+            && checkIfUserHasAnApprovedBooking(user) == false) {
             var vaccine = optVaccine.get();
             if (vaccine.getQuantity() == 0) {
                 throw new ResourceNotFoundException("Vaccine out of stock");

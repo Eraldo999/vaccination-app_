@@ -69,6 +69,9 @@ public class BookingController {
         if (Objects.isNull(usr.getAnswers())){
             return "redirect:/answers/";
         }
+        if (bookingService.checkIfUserHasAnApprovedBooking(usr) == true){
+            return "user/denied";
+        }
         var userId = usr.getId();
         var vaccines = vaccineService.getVaccinesForUser(userId);
         var req = new BookingCreateDto();
