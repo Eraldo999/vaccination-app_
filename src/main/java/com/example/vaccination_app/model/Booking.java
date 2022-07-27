@@ -29,8 +29,8 @@ public class Booking {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date date;
 
-    @Column(name = "location")
-    private String location;
+    @Column(name = "time")
+    private String time;
 
     @ManyToOne
     @JoinColumn(name = "vaccine_id", nullable = false)

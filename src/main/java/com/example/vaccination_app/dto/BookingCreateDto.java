@@ -17,9 +17,11 @@ public class BookingCreateDto {
     @NotNull
     private Date date;
 
-    private String location;
+    private String time;
 
+    @NotNull
     private long vaccinationCenterId;
 
+    @NotNull
     private long vaccineId;
 }

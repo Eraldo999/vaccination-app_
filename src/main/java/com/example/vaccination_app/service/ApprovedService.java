@@ -58,7 +58,7 @@ public class ApprovedService {
 
         var newBooking = new Booking();
         newBooking.setDate(secondDate);
-        newBooking.setLocation(booking.getLocation());
+        newBooking.setTime(booking.getTime());
         newBooking.setVaccine(booking.getVaccine());
         newBooking.setUser(booking.getUser());
         newBooking.setVaccinationCenter(booking.getVaccinationCenter());

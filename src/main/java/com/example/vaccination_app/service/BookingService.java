@@ -75,6 +75,8 @@ public class BookingService {
         var booking = optbooking.get();
         if (booking.getStatus().equals(Status.PENDING)) {
             booking.setStatus(status);
+            var vaccine = booking.getVaccine();
+            vaccine.setQuantity(vaccine.getQuantity() - 1);
             var user = booking.getUser();
             var date = booking.getDate();
             var notification = new Notification();
@@ -119,7 +121,7 @@ public class BookingService {
 
             var booking = new Booking();
             booking.setDate(req.getDate());
-            booking.setLocation(req.getLocation());
+            booking.setTime(req.getTime());
             booking.setVaccine(vaccine);
             booking.setVaccinationCenter(vaccinationCenter);
             booking.setUser(user);

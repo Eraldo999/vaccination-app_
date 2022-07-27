@@ -22,19 +22,19 @@ public class Answers {
     private long id;
 
     @Column(name = "answer1")
-    @NotBlank
+    @NotBlank(message = "Field empty")
     private String answer1;
 
     @Column(name = "answer2")
-    @NotBlank
+    @NotBlank(message = "Field empty")
     private String answer2;
 
     @Column(name = "answer3")
-    @NotBlank
+    @NotBlank(message = "Field empty")
     private String answer3;
 
     @Column(name = "answer4")
-    @NotBlank
+    @NotBlank(message = "Field empty")
     private String answer4;
 
     @OneToOne

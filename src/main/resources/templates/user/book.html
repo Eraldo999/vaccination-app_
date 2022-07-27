@@ -66,7 +66,7 @@
           th:object="${req}"
     >
         <h1>Book</h1>
-
+        <hr>
         <div class="col-sm-10">
             <label for="date" class="col-5">Date</label>
             <div class="col-15">
@@ -79,12 +79,12 @@
         </div>
         <hr>
         <div class="col-sm-10">
-            <label for="location" class="col-5">Location</label>
+            <label for="time" class="col-5">Time</label>
             <div class="col-15">
-                <input type="text"
-                       id="location"
-                       th:field="*{location}"
-                       placeholder="Location"
+                <input type="time"
+                       id="time"
+                       th:field="*{time}"
+                       placeholder="Time"
                        class="form-control">
             </div>
         </div>

@@ -19,23 +19,22 @@ import java.util.List;
 public class UserCreateDto {
 
 
-    @NotEmpty
+    @NotEmpty(message = "Field empty")
     private String name;
 
-    @NotEmpty
+    @NotEmpty(message = "Field empty")
     private String surname;
 
-    @NotEmpty
+    @NotEmpty(message = "Error")
     @Email
     private String email;
 
-    @NotEmpty
+    @NotEmpty(message = "Field empty")
     private String password;
 
-    @NotEmpty
+    @NotEmpty(message = "Field empty")
     private String idCard;
 
-    @NotEmpty
     private String address;
 
     @NotNull

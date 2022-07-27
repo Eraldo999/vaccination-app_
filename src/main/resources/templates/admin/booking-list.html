@@ -76,7 +76,7 @@
             <tr>
                 <th scope="col">Id</th>
                 <th scope="col">Date</th>
-                <th scope="col">Location</th>
+                <th scope="col">Time</th>
                 <th scope="col">User</th>
                 <th scope="col">Vaccination Center</th>
                 <th scope="col">Vaccine</th>
@@ -91,7 +91,7 @@
             <tr th:each="book : ${bookings}">
                 <td th:text="${book.id}"></td>
                 <td th:text="${#dates.format(book.date, 'dd-MM-yyyy')}"></td>
-                <td th:text="${book.location}"></td>
+                <td th:text="${book.time}"></td>
                 <td th:text="${book.user.name}"</td>
                 <td th:text="${book.vaccinationCenter.name}"</td>
                 <td th:text="${book.vaccine.vaccineType}"</td>
