@@ -26,6 +26,12 @@
            th:field="*{answer1}"
            placeholder="Answer"
            class="form-control mb-4 col-4">
+    <div class="alert alert-danger"
+         th:errors="*{answer1}"
+         th:if="${#fields.hasErrors('answer1')}"
+    >
+      Field Empty
+    </div>
     <li th:text="${questions.question2}"></li>
     <input type="text"
            id="answer2"
@@ -33,6 +39,12 @@
            th:field="*{answer2}"
            placeholder="Answer"
            class="form-control mb-4 col-4">
+    <div class="alert alert-danger"
+         th:errors="*{answer2}"
+         th:if="${#fields.hasErrors('answer2')}"
+    >
+       Field empty
+    </div>
 
     <li th:text="${questions.question3}"></li>
     <input type="text"
@@ -41,6 +53,12 @@
            th:field="*{answer3}"
            placeholder="Answer"
            class="form-control mb-4 col-4">
+    <div class="alert alert-danger"
+         th:errors="*{answer3}"
+         th:if="${#fields.hasErrors('answer4')}"
+    >
+      Field Empty
+    </div>
 
     <li th:text="${questions.question4}"></li>
     <input type="text"
@@ -49,6 +67,12 @@
            th:field="*{answer4}"
            placeholder="Answer"
            class="form-control mb-4 col-4">
+    <div class="alert alert-danger"
+         th:errors="*{answer4}"
+         th:if="${#fields.hasErrors('answer4')}"
+    >
+      Field Empty
+    </div>
 
       <input type="submit" id="submit" name="submit" value="submit">
 

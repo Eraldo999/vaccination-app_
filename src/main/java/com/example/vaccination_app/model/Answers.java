@@ -7,6 +7,7 @@ import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Getter
@@ -21,15 +22,19 @@ public class Answers {
     private long id;
 
     @Column(name = "answer1")
+    @NotBlank
     private String answer1;
 
     @Column(name = "answer2")
+    @NotBlank
     private String answer2;
 
     @Column(name = "answer3")
+    @NotBlank
     private String answer3;
 
     @Column(name = "answer4")
+    @NotBlank
     private String answer4;
 
     @OneToOne

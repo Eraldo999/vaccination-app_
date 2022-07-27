@@ -8,8 +8,10 @@ import com.example.vaccination_app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Objects;
 
@@ -39,9 +41,13 @@ public class AnswersController {
     }
 
     @RequestMapping("/save")
-    public String saveAnswers(@ModelAttribute("answers") Answers answers,
+    public String saveAnswers(@Valid @ModelAttribute("answers") Answers answers,
+                              BindingResult bindingResult,
                               Principal principal) {
 
+        if (bindingResult.hasErrors()) {
+            return "redirect:/answers/";
+        }
         var user = (userService.getUserByPrincipal(principal)).get();
         if (Objects.isNull(user.getAnswers())) {
             answersService.saveAnswersForUser(principal, answers);
