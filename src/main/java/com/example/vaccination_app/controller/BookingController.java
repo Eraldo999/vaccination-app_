@@ -3,10 +3,8 @@ package com.example.vaccination_app.controller;
 import com.example.vaccination_app.dto.BookingCreateDto;
 import com.example.vaccination_app.exception.BadResourceException;
 import com.example.vaccination_app.exception.ResourceNotFoundException;
-import com.example.vaccination_app.service.BookingService;
-import com.example.vaccination_app.service.UserService;
-import com.example.vaccination_app.service.VaccinationCenterService;
-import com.example.vaccination_app.service.VaccineService;
+import com.example.vaccination_app.model.Questions;
+import com.example.vaccination_app.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Objects;
 
 @Controller
 @Slf4j
@@ -26,18 +25,21 @@ public class BookingController {
     private final VaccineService vaccineService;
     private final VaccinationCenterService vaccinationCenterService;
     private final UserService userService;
+    private final QuestionService questionService;
 
     @Autowired
     public BookingController(BookingService bookingService, VaccineService vaccineService,
-                             VaccinationCenterService vaccinationCenterService, UserService userService) {
+                             VaccinationCenterService vaccinationCenterService, UserService userService, QuestionService questionService) {
         this.bookingService = bookingService;
         this.vaccineService = vaccineService;
         this.vaccinationCenterService = vaccinationCenterService;
         this.userService = userService;
+        this.questionService = questionService;
     }
 
     @GetMapping("/list")
     public String getAllBokings(Model model) {
+        model.addAttribute("questions", questionService.getQuestions(1L));
         model.addAttribute("bookings", bookingService.getAllBookings());
 
         return "admin/booking-list";
@@ -64,6 +66,9 @@ public class BookingController {
     @GetMapping("/new")
     public String newBooking(Model model, Principal principal) {
         var usr = (userService.getUserByPrincipal(principal)).get();
+        if (Objects.isNull(usr.getAnswers())){
+            return "redirect:/answers/";
+        }
         var userId = usr.getId();
         var vaccines = vaccineService.getVaccinesForUser(userId);
         var req = new BookingCreateDto();

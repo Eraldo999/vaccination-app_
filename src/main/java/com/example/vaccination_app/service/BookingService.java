@@ -6,6 +6,7 @@ import com.example.vaccination_app.exception.ResourceNotFoundException;
 import com.example.vaccination_app.model.Approved;
 import com.example.vaccination_app.model.Booking;
 import com.example.vaccination_app.model.Notification;
+import com.example.vaccination_app.model.enums.AnswersStatus;
 import com.example.vaccination_app.model.enums.Status;
 import com.example.vaccination_app.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -94,27 +95,32 @@ public class BookingService {
         }
         var status = Status.PENDING;
         var user = optUser.get();
-        var vaccine = optVaccine.get();
-        if (vaccine.getQuantity() == 0){
-            throw new ResourceNotFoundException("Vaccine out of stock");
+        if (user.getAnswers().getStatus().equals(AnswersStatus.COMPLETED)) {
+            var vaccine = optVaccine.get();
+            if (vaccine.getQuantity() == 0) {
+                throw new ResourceNotFoundException("Vaccine out of stock");
+            }
+            var vaccinationCenter = user.getVaccinationCenter();
+
+            var booking = new Booking();
+            booking.setDate(req.getDate());
+            booking.setLocation(req.getLocation());
+            booking.setVaccine(vaccine);
+            booking.setVaccinationCenter(vaccinationCenter);
+            booking.setUser(user);
+            booking.setStatus(status);
+
+            var optAdmin = userRepository.findById(1L);
+            var notification = new Notification();
+            notification.setStatus("New Booking by " + user.getName());
+            notification.setUser(optAdmin.get());
+
+            notificationRepository.save(notification);
+            bookingRepository.save(booking);
         }
-        var vaccinationCenter = user.getVaccinationCenter();
-
-        var booking = new Booking();
-        booking.setDate(req.getDate());
-        booking.setLocation(req.getLocation());
-        booking.setVaccine(vaccine);
-        booking.setVaccinationCenter(vaccinationCenter);
-        booking.setUser(user);
-        booking.setStatus(status);
-
-        var optAdmin = userRepository.findById(1L);
-        var notification = new Notification();
-        notification.setStatus("New Booking by " + user.getName());
-        notification.setUser(optAdmin.get());
-
-        notificationRepository.save(notification);
-        bookingRepository.save(booking);
+        else{
+            throw new PermissionDeniedException();
+        }
 
     }
 

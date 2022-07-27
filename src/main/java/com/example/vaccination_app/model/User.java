@@ -58,6 +58,9 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Notification> notifications;
 
+    @OneToOne(mappedBy = "user")
+    private Answers answers;
+
     public User(long id, String name, String surname, String email, String password, String idCard, String address, ApplicationRole applicationRole) {
         this.id = id;
         this.name = name;

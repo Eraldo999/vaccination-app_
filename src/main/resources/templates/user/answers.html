@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <title>Register</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+        integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+        crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+  <hr>
+  <h2>Questionnaire</h2>
+  <form th:action="@{/answers/save}"
+        th:object="${answers}"
+        method="POST"
+        enctype="multipart/form-data"
+  >
+    <li th:text="${questions.question1}"></li>
+
+    <input type="text"
+           id="answer1"
+           name="answer1"
+           th:field="*{answer1}"
+           placeholder="Answer"
+           class="form-control mb-4 col-4">
+    <li th:text="${questions.question2}"></li>
+    <input type="text"
+           id="answer2"
+           name="answer2"
+           th:field="*{answer2}"
+           placeholder="Answer"
+           class="form-control mb-4 col-4">
+
+    <li th:text="${questions.question3}"></li>
+    <input type="text"
+           id="answer3"
+           name="answer3"
+           th:field="*{answer3}"
+           placeholder="Answer"
+           class="form-control mb-4 col-4">
+
+    <li th:text="${questions.question4}"></li>
+    <input type="text"
+           id="answer4"
+           name="answer4"
+           th:field="*{answer4}"
+           placeholder="Answer"
+           class="form-control mb-4 col-4">
+
+      <input type="submit" id="submit" name="submit" value="submit">
+
+  </form>
+  <hr>
+</div>
+</body>
+</html>

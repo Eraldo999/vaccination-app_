@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor"
+          crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+    <hr>
+    <h2>Questions</h2>
+
+    <li th:text="${questions.question1}">
+    <li th:text="${answers.answer1}"></li>
+
+    <li th:text="${questions.question2}">
+    <li th:text="${answers.answer2}"></li>
+
+    <li th:text="${questions.question3}">
+    <li th:text="${answers.answer3}"></li>
+
+    <li th:text="${questions.question4}">
+    <li th:text="${answers.answer4}"></li>
+
+
+    </form>
+    <hr>
+</div>
+</body>
+</html>

@@ -81,7 +81,9 @@
                 <th scope="col">Vaccination Center</th>
                 <th scope="col">Vaccine</th>
                 <th scope="col">Status</th>
+                <th scope="col">User questionnaire</th>
                 <th scope="col">Action</th>
+
             </tr>
             </thead>
             <tbody>
@@ -94,6 +96,8 @@
                 <td th:text="${book.vaccinationCenter.name}"</td>
                 <td th:text="${book.vaccine.vaccineType}"</td>
                     <td th:text="${book.status}"</td>
+                <td><a th:href="@{/answers/get-answers(id=${book.user.id})}"
+                       class="btn btn-dark"> Questionnaire </a></td>
                 <td>
                     <div th:if="${book.status.name() == 'DISSAPROVED'}">
                         <a th:href="@{/booking/delete(id=${book.id})}"
