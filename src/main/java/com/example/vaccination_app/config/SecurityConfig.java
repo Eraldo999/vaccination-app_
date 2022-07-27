@@ -14,6 +14,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public static final PasswordEncoder PASSWORD_ENCODER = NoOpPasswordEncoder.getInstance();
 	public static final int ROLE_ADMIN_ID = 1;
 	public static final int ROLE_USER_ID = 2;
+	public static final String[] ADMIN_ENDPOINTS = {"/approved/", "/approved/**", "/booking/list",
+													"/admin/", "/admin/**","answers/get-answers" };
 
 	public final UserDetailsService userDetailsService;
 
@@ -33,11 +35,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 				.authorizeRequests()
-				.antMatchers("/", "/signup", "/login")
+				.antMatchers("/", "/login")
 				.permitAll()
-				.antMatchers("/booking/list","/admin/", "/admin/**")
+				.antMatchers(ADMIN_ENDPOINTS)
 				.hasRole("ADMIN")
-				.antMatchers("/")
+				.antMatchers("/notification/")
 				.hasAnyRole("USER", "ADMIN")
 				.antMatchers("/booking/new")
 				.hasRole("USER")
@@ -54,7 +56,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.exceptionHandling()
 				.accessDeniedPage("/403")
 				.and()
-				.csrf()
-				.ignoringAntMatchers("/feedback", "/feedback/**");
+				.csrf();
 	}
 }
