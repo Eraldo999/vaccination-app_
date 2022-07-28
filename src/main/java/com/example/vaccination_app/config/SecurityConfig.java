@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public static final PasswordEncoder PASSWORD_ENCODER = NoOpPasswordEncoder.getInstance();
-	public static final int ROLE_ADMIN_ID = 1;
 	public static final int ROLE_USER_ID = 2;
 	public static final String[] ADMIN_ENDPOINTS = {"/approved/", "/approved/**", "/booking/list",
 													"/admin/", "/admin/**","answers/get-answers" };

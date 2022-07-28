@@ -50,7 +50,6 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    @ResponseBody
     public String register(
             @Valid @ModelAttribute("user") UserCreateDto usr,
             BindingResult bindingResult, Model model
@@ -103,8 +102,9 @@ public class UserController {
     }
 
     @GetMapping("/vaccine-details")
-    public String vaccineDetails(Model model){
-        var vaccines = vaccineService.getAllVaccines();
+    public String vaccineDetails(Model model, Principal principal){
+        var user = (userService.getUserByPrincipal(principal)).get();
+        var vaccines = vaccineService.getVaccinesForUser(user.getId());
         model.addAttribute("vaccines", vaccines);
         return "user/vaccine-details";
     }

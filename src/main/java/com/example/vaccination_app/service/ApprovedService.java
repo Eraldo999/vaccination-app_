@@ -11,6 +11,7 @@ import com.example.vaccination_app.repository.NotificationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -46,6 +47,7 @@ public class ApprovedService {
         return secondDoseDate;
     }
 
+    @Transactional
     public void getSecondAppointment (long id){
         var optappoitment = approvedRepository.findById(id);
         if(optappoitment.isEmpty()){

@@ -15,8 +15,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class ApplicationRole implements Serializable {
-	private static final long serialVersionUID = 131L;
+public class ApplicationRole /*implements Serializable*/ {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO, generator = "native")
 	@GenericGenerator(name = "native", strategy = "native")

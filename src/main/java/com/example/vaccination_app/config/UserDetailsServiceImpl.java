@@ -22,7 +22,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 		var usr = repo.findByEmail(username);
 
 		var user = usr.get();
-//				.orElseThrow(() -> new UsernameNotFoundException("cannot find user: " + username));
 
 		var authority = new SimpleGrantedAuthority(user.getApplicationRole().getName());
 

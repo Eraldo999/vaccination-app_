@@ -49,6 +49,7 @@ public class BookingService {
         return bookingRepository.findAll();
     }
 
+    @Transactional
     public void dissaproveBooking (long id){
         var optbooking = bookingRepository.findById(id);
         if(optbooking.isEmpty()){
@@ -66,6 +67,7 @@ public class BookingService {
         else throw new PermissionDeniedException();
     }
 
+    @Transactional
     public void acceptBooking (long id){
         var optbooking = bookingRepository.findById(id);
         if(optbooking.isEmpty()){
@@ -88,6 +90,7 @@ public class BookingService {
             notificationRepository.save(notification);
         }
     }
+    @Transactional
     public boolean checkIfUserHasAnApprovedBooking (User user){
         var bookings = user.getBookings();
         boolean bol = false;
