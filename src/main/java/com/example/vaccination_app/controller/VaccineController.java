@@ -1,6 +1,7 @@
 package com.example.vaccination_app.controller;
 
 import com.example.vaccination_app.model.Vaccine;
+import com.example.vaccination_app.service.VaccinationCenterService;
 import com.example.vaccination_app.service.VaccineService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

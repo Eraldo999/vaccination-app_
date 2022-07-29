@@ -2,6 +2,7 @@ package com.example.vaccination_app.service;
 
 import com.example.vaccination_app.dto.BookingCreateDto;
 import com.example.vaccination_app.exception.PermissionDeniedException;
+import com.example.vaccination_app.exception.ResourceAlreadyExistsException;
 import com.example.vaccination_app.exception.ResourceNotFoundException;
 import com.example.vaccination_app.model.Approved;
 import com.example.vaccination_app.model.Booking;
@@ -17,10 +18,7 @@ import javax.transaction.Transactional;
 import java.security.Principal;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class BookingService {
@@ -96,7 +94,7 @@ public class BookingService {
         boolean bol = false;
         for (Booking b : bookings){
             if(b.getStatus().equals(Status.APPROVED) || b.getStatus().equals(Status.DONE)){
-                bol = true;
+                bol = false;
             }
             else {
                 bol = false;
@@ -114,6 +112,12 @@ public class BookingService {
         }
         var status = Status.PENDING;
         var user = optUser.get();
+        var bookings = user.getBookings();
+        Set<Date> dates = new HashSet<>();
+        for (Booking b : bookings){
+            dates.add(b.getDate());
+        }
+
         if (user.getAnswers().getStatus().equals(AnswersStatus.COMPLETED)
             && checkIfUserHasAnApprovedBooking(user) == false) {
             var vaccine = optVaccine.get();
@@ -123,12 +127,19 @@ public class BookingService {
             var vaccinationCenter = user.getVaccinationCenter();
 
             var booking = new Booking();
+            for (Date d : dates){
+                if (req.getDate().equals(d)){
+                    throw new ResourceAlreadyExistsException();
+
+                }
+            }
             booking.setDate(req.getDate());
             booking.setTime(req.getTime());
             booking.setVaccine(vaccine);
             booking.setVaccinationCenter(vaccinationCenter);
             booking.setUser(user);
             booking.setStatus(status);
+            String dateconvert = milatryConvert(req.getDate() +"");
 
             var optAdmin = userRepository.findById(1L);
             var notification = new Notification();
@@ -141,6 +152,22 @@ public class BookingService {
         else{
             throw new PermissionDeniedException();
         }
+
+    }
+
+
+    private String milatryConvert (String date){
+        int lastCharIndex = date.length() -1;
+        int secondLastCharIndex = date.length() -2;
+        String dateWithoutAMPM = date.substring(0, date.length() -2)
+        if (date.substring(lastCharIndex, secondLastCharIndex) =="AM"){
+            return dateWithoutAMPM;
+        }
+        else{
+            return "";
+        }
+//        int convert = Integer.parseInt(dateWithoutAMPM) + 12;
+
 
     }
 

@@ -39,7 +39,7 @@ public class ApprovedService {
     }
 
     public Date secondDoseDate (Date date){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+//        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
         Calendar c = Calendar.getInstance();
         c.setTime(date);
         c.add(Calendar.DATE, 14);
